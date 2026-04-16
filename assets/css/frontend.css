@@ -1,0 +1,278 @@
+/* ─── Trust Bar Frontend Styles ─── */
+
+:root {
+  --tb-logo-height: 60px;
+  --tb-logo-max-width: 160px;
+  --tb-gap: 32px;
+  --tb-pad-x: 24px;
+  --tb-pad-y: 16px;
+  --tb-transition: 600ms;
+  --tb-bg: transparent;
+  --tb-border-color: #e5e7eb;
+  --tb-border-radius: 8px;
+  --tb-arrow-size: 36px;
+}
+
+/* ─── Wrapper ─── */
+.trust-bar-wrap {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--tb-bg);
+  border-radius: var(--tb-border-radius);
+  padding: var(--tb-pad-y) var(--tb-pad-x);
+  overflow: hidden;
+}
+
+.trust-bar-wrap.tb-has-border {
+  border: 1px solid var(--tb-border-color);
+}
+
+/* ─── Heading ─── */
+.trust-bar-wrap .tb-heading {
+  text-align: center;
+  margin: 0 0 var(--tb-pad-y) 0;
+  font-size: 0.85em;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.55;
+  color: currentColor;
+}
+
+/* ─── Track outer (arrows + viewport) ─── */
+.tb-track-outer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+/* ─── Viewport: clips the sliding track ─── */
+.tb-viewport {
+  flex: 1 1 0;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ─── Track: horizontal flex row (or grid for multi-row) ─── */
+.tb-track {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: var(--tb-gap);
+  transition: transform var(--tb-transition) cubic-bezier(.4,0,.2,1);
+  will-change: transform;
+}
+
+/* Multi-row: use CSS Grid */
+.tb-rows-2,
+.tb-rows-3,
+.tb-rows-4,
+.tb-rows-5 {
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
+
+.tb-rows-2  { --tb-rows: 2; }
+.tb-rows-3  { --tb-rows: 3; }
+.tb-rows-4  { --tb-rows: 4; }
+.tb-rows-5  { --tb-rows: 5; }
+
+/* ─── Individual logo item ─── */
+.tb-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  gap: 6px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.tb-item > a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.tb-logo-img {
+  display: block;
+  height: var(--tb-logo-height);
+  max-width: var(--tb-logo-max-width);
+  width: auto;
+  object-fit: contain;
+  transition: filter 0.35s ease, transform 0.3s ease, opacity 0.35s ease;
+}
+
+.tb-logo-title {
+  font-size: 0.75em;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  opacity: 0.65;
+  white-space: nowrap;
+  transition: opacity 0.3s;
+}
+
+.tb-text-tooltip {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.8);
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.7em;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.tb-item:hover .tb-text-tooltip { opacity: 1; }
+
+/* ─── Color modes ─── */
+
+/* Full color – default, no filter */
+.tb-mode-full .tb-logo-img {
+  filter: none;
+}
+
+/* Grayscale */
+.tb-mode-grayscale .tb-logo-img {
+  filter: grayscale(100%);
+}
+.tb-mode-grayscale.tb-hover-color .tb-item:hover .tb-logo-img,
+.tb-mode-grayscale.tb-hover-color .tb-item:focus-within .tb-logo-img {
+  filter: grayscale(0%);
+}
+
+/* Monochrome */
+.tb-mode-mono .tb-logo-img {
+  filter: grayscale(100%) contrast(120%);
+}
+.tb-mode-mono.tb-hover-color .tb-item:hover .tb-logo-img,
+.tb-mode-mono.tb-hover-color .tb-item:focus-within .tb-logo-img {
+  filter: grayscale(0%) contrast(100%);
+}
+
+/* Dimmed */
+.tb-mode-dimmed .tb-logo-img {
+  filter: grayscale(60%) opacity(45%);
+}
+.tb-mode-dimmed.tb-hover-color .tb-item:hover .tb-logo-img,
+.tb-mode-dimmed.tb-hover-color .tb-item:focus-within .tb-logo-img {
+  filter: grayscale(0%) opacity(100%);
+}
+
+/* Scale hover */
+.tb-hover-scale .tb-item:hover .tb-logo-img,
+.tb-hover-scale .tb-item:focus-within .tb-logo-img {
+  transform: scale(1.08);
+}
+
+/* ─── Arrows ─── */
+.tb-arrow {
+  flex: 0 0 var(--tb-arrow-size);
+  width: var(--tb-arrow-size);
+  height: var(--tb-arrow-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid rgba(0,0,0,0.15);
+  background: rgba(255,255,255,0.9);
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+  color: #333;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: background 0.2s, box-shadow 0.2s, opacity 0.2s;
+  z-index: 2;
+  padding: 0;
+  user-select: none;
+}
+
+.tb-arrow:hover {
+  background: #fff;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.14);
+}
+
+.tb-arrow:disabled,
+.tb-arrow.tb-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Hide arrows when carousel not needed */
+.tb-no-carousel .tb-arrow {
+  display: none;
+}
+
+/* ─── Dots ─── */
+.tb-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.tb-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.2);
+  cursor: pointer;
+  transition: background 0.25s, transform 0.25s;
+  border: none;
+  padding: 0;
+}
+
+.tb-dot.active {
+  background: rgba(0,0,0,0.55);
+  transform: scale(1.2);
+}
+
+.tb-dots:empty {
+  display: none;
+}
+
+/* ─── Responsive: compact arrows, smaller items ─── */
+@media (max-width: 600px) {
+  :root {
+    --tb-pad-x: 12px;
+    --tb-pad-y: 10px;
+    --tb-gap: 18px;
+    --tb-arrow-size: 28px;
+  }
+
+  .tb-logo-img {
+    height: calc(var(--tb-logo-height) * 0.75);
+  }
+
+  .tb-arrow {
+    font-size: 15px;
+  }
+}
+
+/* Dark-mode awareness */
+@media (prefers-color-scheme: dark) {
+  .tb-arrow {
+    background: rgba(40,40,40,0.9);
+    border-color: rgba(255,255,255,0.15);
+    color: #eee;
+  }
+  .tb-arrow:hover {
+    background: rgba(60,60,60,1);
+  }
+  .tb-dot {
+    background: rgba(255,255,255,0.2);
+  }
+  .tb-dot.active {
+    background: rgba(255,255,255,0.6);
+  }
+}
