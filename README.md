@@ -1,5 +1,5 @@
 === Trust Bar ===
-Contributors: trustbar
+Contributors: N Riko Trihendrawan
 Tags: logo, trust bar, partner logos, carousel, brand
 Requires at least: 5.8
 Tested up to: 6.7
